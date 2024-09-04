@@ -1,0 +1,19 @@
+# Node.js のモジュールディレクトリを除外
+frontend/node_modules/
+backend/node_modules/
+
+# Vite でビルドしたフロントエンドの生成ファイルを除外
+frontend/dist/
+
+# TypeScript でビルドしたバックエンドの生成ファイルを除外
+backend/dist/
+
+# 環境変数ファイルを除外
+frontend/.env
+backend/.env
+
+# OS 特有のファイルを除外 (macOS の場合)
+.DS_Store
+
+# IDE やエディタの設定ファイルを除外 (VSCode の例)
+.vscode/
