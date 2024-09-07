@@ -17,3 +17,6 @@ backend/.env
 
 # IDE やエディタの設定ファイルを除外 (VSCode の例)
 .vscode/
+
+# Prettier
+.prettiercache

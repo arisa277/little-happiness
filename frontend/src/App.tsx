@@ -1,19 +1,13 @@
-import { useState } from 'react'
-import './App.css'
+import BlogList from './components/BlogList';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
       <h1>Hello World!</h1>
-
-
-
-
-
+      <BlogList />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
