@@ -10,7 +10,7 @@ app.use(cors());
 
 // ディレクトリ内のファイルを再帰的に取得
 const getMarkdownFilesWithAssets = (dir: string) => {
-  const result: { [key: string]: { markdownFile?: string, assets: string[] } } = {};
+  const result: { [key: string]: { markdownFile?: string, fileContent?: string, assets?: string[] } } = {};
 
   // サブディレクトリごとに処理
   fs.readdirSync(dir).forEach((fileOrDir) => {
@@ -23,8 +23,21 @@ const getMarkdownFilesWithAssets = (dir: string) => {
       const markdownFile = filesInDir.find(file => file.endsWith('.md'));
       const assets = filesInDir.filter(file => !file.endsWith('.md'));
 
+      let fileContent: string | undefined = undefined;
+
+      // Markdown ファイルが存在する場合、その中身を読み込む
+      if (markdownFile) {
+        const markdownPath = path.join(fullPath, markdownFile);
+        try {
+          fileContent = fs.readFileSync(markdownPath, 'utf8'); // ファイルの内容を文字列として読み込む
+        } catch (err) {
+          console.error(`Error reading file ${markdownPath}:`, err);
+        }
+      }
+
       result[fileOrDir] = {
         markdownFile: markdownFile ? path.join(fullPath, markdownFile) : undefined,
+        fileContent,
         assets: assets.map(asset => path.join(fullPath, asset)),
       };
     }

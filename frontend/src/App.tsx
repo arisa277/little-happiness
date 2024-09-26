@@ -1,11 +1,26 @@
+import { useState, useEffect } from 'react';
+import Navigation from './components/Navigation';
 import BlogList from './components/BlogList';
+import './index.css';
 
 function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
+  useEffect(() => {
+    isDarkMode ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
+  }, [isDarkMode]);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
   return (
     <>
-      <h1>Hello World!</h1>
-      <BlogList />
+      <div className="dark:bg-gray-700 text-gray-800 dark:text-gray-200 ">
+        <div className="container mx-10 ">
+          <Navigation toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+          <BlogList />
+        </div>
+      </div>
     </>
   );
 }
