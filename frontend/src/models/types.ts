@@ -15,9 +15,11 @@ export type Blog = {
 };
 
 export type BlogEntry = {
-  markdownFile?: string; // Markdown ファイルのパス
-  fileContent?: string;  // Markdown ファイルの内容を文字列として読み込む
-  assets: string[];      // 画像などのアセットファイルのパス
+  markdownFile?: string;
+  fileContent?: string;
+  assets: string[];
+  date: string;
+  category: string;
 };
 
 export type BlogsResponse = {

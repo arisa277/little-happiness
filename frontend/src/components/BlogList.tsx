@@ -12,11 +12,11 @@ const BlogList = () => {
   return (
     <div>
       {/* 取得したデータを表示 */}
-      {blogs && Object.entries(blogs).map(([category, { markdownFile, fileContent, assets }]) => (
+      {blogs && Object.entries(blogs).map(([category, { date, markdownFile, fileContent, assets }]) => (
         <div key={category}>
           {/* <h2>{category}</h2> */}
           {markdownFile && (
-            <BlogContent category={category} date={"2024-09-24"} fileContent={fileContent} assets={assets} />
+            <BlogContent category={category} date={date} fileContent={fileContent} assets={assets} />
           )}
         </div>
       ))}
