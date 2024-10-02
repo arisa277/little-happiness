@@ -16,7 +16,7 @@ const BlogList = () => {
         <div key={category}>
           {/* <h2>{category}</h2> */}
           {markdownFile && (
-            <BlogContent category={category} markdownFile={markdownFile} fileContent={fileContent} assets={assets} />
+            <BlogContent category={category} date={"2024-09-24"} fileContent={fileContent} assets={assets} />
           )}
         </div>
       ))}

@@ -5,7 +5,7 @@
 
 html,
 body {
-  @apply w-full min-h-screen;
+  @apply w-10/12 min-h-screen text-gray-800 mx-auto;
 }
 
 * {
@@ -33,15 +33,46 @@ body {
 }
 /* インラインコード */
 .markdown code {
-  @apply text-xs bg-gray-100 text-red-500 p-1 m-1 rounded-md shadow-sm; /* 優しいブルー系 */
+  @apply text-xs bg-gray-100 text-red-500 p-1 m-1 rounded-md shadow-sm;
 }
 
 /* コードブロック */
 .markdown pre {
-  @apply text-sm bg-gray-800 text-slate-100 p-4 m-2 rounded-lg shadow-lg overflow-x-auto; /* 濃い背景色と明るいテキスト */
+  @apply text-sm bg-gray-800 text-slate-100 p-4 my-5 rounded-lg shadow-lg overflow-x-auto;
 }
 
 /* コードブロック内の code 要素はプレーンなスタイル */
 .markdown pre code {
-  @apply bg-transparent p-0 m-0 text-inherit;
+  @apply text-sm bg-transparent p-0 m-0 text-inherit;
+}
+
+/* ダークモード */
+.dark body {
+  @apply bg-gray-800 text-gray-200;
+}
+
+.dark .markdown pre {
+  @apply bg-gray-100 text-gray-800;
+}
+
+.dark .markdown pre code {
+  @apply text-gray-800 shadow-none;
+}
+
+/* マークダウン内の画像のスタイル */
+.markdown img {
+  @apply max-w-screen-md h-auto rounded-lg shadow-md m-4;
+}
+
+/* 画像の大きさを調整（任意で変更） */
+.markdown img.small {
+  @apply w-32; /* 幅を固定 */
+}
+
+.markdown img.medium {
+  @apply w-48; /* 幅を固定 */
+}
+
+.markdown img.large {
+  @apply w-64; /* 幅を固定 */
 }

@@ -15,11 +15,9 @@ function App() {
   };
   return (
     <>
-      <div className="dark:bg-gray-700 text-gray-800 dark:text-gray-200 ">
-        <div className="container mx-10 ">
-          <Navigation toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
-          <BlogList />
-        </div>
+      <div className="container mx-10">
+        <Navigation toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+        <BlogList />
       </div>
     </>
   );
