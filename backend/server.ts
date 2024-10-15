@@ -59,11 +59,23 @@ const getMarkdownFilesWithAssets = (dir: string) => {
 };
 
 // エンドポイントで Markdown ファイルとアセットのリストを返す
-app.get('/blogs', (req, res) => {
+app.get('/blogs', (req: Request, res: Response) => {
   const contentDir = path.join(__dirname, 'content');
   try {
     const filesWithAssets = getMarkdownFilesWithAssets(contentDir);
-    res.json(filesWithAssets);
+
+    // オブジェクトを配列に変換して日付でソート
+    const sortedFiles = Object.entries(filesWithAssets)
+      .sort(([, a], [, b]) => {
+        // 日付を比較して降順に並べる (新しい順)
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      })
+      .reduce((acc, [key, value]) => {
+        acc[key] = value;
+        return acc;
+      }, {} as typeof filesWithAssets);
+
+    res.json(sortedFiles);
   } catch (err) {
     res.status(500).send('Error reading directory');
   }
