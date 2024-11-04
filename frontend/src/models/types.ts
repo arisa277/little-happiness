@@ -19,6 +19,7 @@ export type BlogEntry = {
   fileContent?: string;
   assets: string[];
   date: string;
+  title: string;
   category: string;
 };
 

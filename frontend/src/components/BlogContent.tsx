@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 
 interface BlogContentProps {
   date: string;
+  title: string;
   category: string;
   fileContent?: string;
   assets?: string[];
@@ -11,7 +12,12 @@ interface BlogContentProps {
 // TODO この URL は環境変数から取得するように変更
 const url = process.env.REACT_APP_API_URL || 'http://localhost:3000';
 
-const BlogContent: React.FC<BlogContentProps> = ({ date, fileContent, assets }) => {
+const BlogContent: React.FC<BlogContentProps> = ({
+  date,
+  title,
+  fileContent,
+  assets,
+}) => {
   // 画像の絶対パスをサーバーから提供されるパスに変換
   const getImagePath = (absolutePath: string) => {
     // 画像ファイル名を取得し、サーバーのルートに合わせてパスを作成
@@ -44,10 +50,13 @@ const BlogContent: React.FC<BlogContentProps> = ({ date, fileContent, assets }) 
   return (
     <>
       {modifiedContent && (
-        <div className='markdown'>
-          <p className='ml-3 mt-16 text-xs'>{date}</p>
+        <div className="markdown">
+          <p className="ml-3 mt-16 text-xs">{date}</p>
+          <h1>{title}</h1>
           {/* カスタムレンダラーを使用 */}
-          <ReactMarkdown components={components}>{modifiedContent}</ReactMarkdown>
+          <ReactMarkdown components={components}>
+            {modifiedContent}
+          </ReactMarkdown>
         </div>
       )}
     </>

@@ -34,4 +34,10 @@ export const blogApi = createApi({
   }),
 });
 
-export const { useGetBlogsQuery, useGetBlogByIdQuery, useCreateBlogMutation, useUpdateBlogMutation, useDeleteBlogMutation } = blogApi;
+export const {
+  useGetBlogsQuery,
+  useGetBlogByIdQuery,
+  useCreateBlogMutation,
+  useUpdateBlogMutation,
+  useDeleteBlogMutation,
+} = blogApi;
