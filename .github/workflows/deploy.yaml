@@ -2,8 +2,6 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    paths:
-      - "backend/content/**/*.md" # Markdown ファイルが変更されたときにトリガー
     branches:
       - main # 適用するブランチ
 
@@ -29,10 +27,10 @@ jobs:
 
       - name: Build frontend
         working-directory: ./frontend
-        run: npm run build # frontend 用のビルドコマンド
+        run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./frontend/dist # ビルド出力ディレクトリ
+          publish_dir: ./frontend/dist
