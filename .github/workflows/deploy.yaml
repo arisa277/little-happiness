@@ -29,6 +29,9 @@ jobs:
         working-directory: ./frontend
         run: npm run build
 
+      - name: Disable Jekyll
+        run: echo > ./frontend/dist/.nojekyll # .nojekyll ファイルを作成
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
