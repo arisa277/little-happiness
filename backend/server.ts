@@ -10,48 +10,66 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use('/content', express.static(path.join(__dirname, 'content')));
 
-// ディレクトリ内のファイルを再帰的に取得
-const getMarkdownFilesWithAssets = (dir: string) => {
-  const result: { [key: string]: { markdownFile?: string, fileContent?: string, assets?: string[], date: string, category: string } } = {};
+type FrontMatter = {
+  title: string;
+  category: string;
+  tags: [string];
+};
 
-  // サブディレクトリごとに処理
+type BlogPost = {
+  markdownFile?: string;
+  fileContent?: string;
+  assets?: string[];
+  date: string;
+  title: string;
+  category: string;
+};
+
+// Markdown ファイルのフロントマターと内容を読み込む関数
+const parseMarkdownFile = (
+  filePath: string
+): { frontMatter: FrontMatter; content: string } | null => {
+  try {
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    const { data, content } = matter(fileContent);
+    return { frontMatter: data as FrontMatter, content };
+  } catch (error) {
+    console.error(`Error reading file ${filePath}:`, error);
+    return null;
+  }
+};
+
+// ディレクトリ内の Markdown ファイルとアセットを取得する関数
+const getMarkdownFilesWithAssets = (
+  dir: string
+): { [key: string]: BlogPost } => {
+  const result: { [key: string]: BlogPost } = {};
+
   fs.readdirSync(dir).forEach((fileOrDir) => {
     const fullPath = path.join(dir, fileOrDir);
     const stat = fs.statSync(fullPath);
 
     if (stat.isDirectory()) {
-      // ディレクトリ内の Markdown ファイルと他のファイルを取得
       const filesInDir = fs.readdirSync(fullPath);
-      const markdownFile = filesInDir.find(file => file.endsWith('.md'));
-      const assets = filesInDir.filter(file => !file.endsWith('.md'));
+      const markdownFile = filesInDir.find((file) => file.endsWith('.md'));
+      const assets = filesInDir.filter((file) => !file.endsWith('.md'));
 
-      let fileContent: string | undefined = undefined;
-      let category: string = '';
-
-      // Markdown ファイルが存在する場合、その中身を読み込む
       if (markdownFile) {
         const markdownPath = path.join(fullPath, markdownFile);
-        try {
-          fileContent = fs.readFileSync(markdownPath, 'utf8'); // ファイルの内容を文字列として読み込む
-          // `gray-matter` を使ってフロントマターをパース
-          const parsed = matter(fileContent);
-          category = parsed.data.category;
-          fileContent = parsed.content;
-        } catch (err) {
-          console.error(`Error reading file ${markdownPath}:`, err);
+        const parsed = parseMarkdownFile(markdownPath);
+
+        if (parsed) {
+          const { frontMatter, content } = parsed;
+          result[fileOrDir] = {
+            markdownFile: markdownPath,
+            fileContent: content,
+            date: markdownFile.split('.')[0],
+            title: frontMatter.title,
+            category: frontMatter.category,
+            assets: assets.map((asset) => path.join(fullPath, asset)),
+          };
         }
       }
-
-      // ファイル名の日付を取得
-      const date = markdownFile?.split('.')[0];
-
-      result[fileOrDir] = {
-        markdownFile: markdownFile ? path.join(fullPath, markdownFile) : undefined,
-        fileContent,
-        date: date || '',
-        category,
-        assets: assets.map(asset => path.join(fullPath, asset)),
-      };
     }
   });
 
@@ -70,10 +88,13 @@ app.get('/blogs', (req: Request, res: Response) => {
         // 日付を比較して降順に並べる (新しい順)
         return new Date(b.date).getTime() - new Date(a.date).getTime();
       })
-      .reduce((acc, [key, value]) => {
-        acc[key] = value;
-        return acc;
-      }, {} as typeof filesWithAssets);
+      .reduce(
+        (acc, [key, value]) => {
+          acc[key] = value;
+          return acc;
+        },
+        {} as typeof filesWithAssets
+      );
 
     res.json(sortedFiles);
   } catch (err) {
