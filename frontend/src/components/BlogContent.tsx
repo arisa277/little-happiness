@@ -9,7 +9,7 @@ interface BlogContentProps {
 }
 
 // TODO この URL は環境変数から取得するように変更
-const url = 'http://localhost:3000';
+const url = process.env.REACT_APP_API_URL || 'http://localhost:3000';
 
 const BlogContent: React.FC<BlogContentProps> = ({ date, fileContent, assets }) => {
   // 画像の絶対パスをサーバーから提供されるパスに変換
