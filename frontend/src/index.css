@@ -6,6 +6,7 @@
 html,
 body {
   @apply w-10/12 min-h-screen text-gray-800 mx-auto;
+  @apply mb-20;
 }
 
 * {

@@ -11,7 +11,7 @@ interface BlogContentProps {
 // TODO この URL は環境変数から取得するように変更
 const url = 'http://localhost:3000';
 
-const BlogContent: React.FC<BlogContentProps> = ({ date, category, fileContent, assets }) => {
+const BlogContent: React.FC<BlogContentProps> = ({ date, fileContent, assets }) => {
   // 画像の絶対パスをサーバーから提供されるパスに変換
   const getImagePath = (absolutePath: string) => {
     // 画像ファイル名を取得し、サーバーのルートに合わせてパスを作成
