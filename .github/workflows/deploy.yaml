@@ -1,0 +1,38 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    paths:
+      - "backend/content/**/*.md" # Markdown ファイルが変更されたときにトリガー
+    branches:
+      - main # 適用するブランチ
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies for frontend
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Copy Markdown files to frontend
+        run: cp -r ./backend/content ./frontend/content # Markdown ファイルをフロントエンドにコピー
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build # frontend 用のビルドコマンド
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./frontend/public # ビルド出力ディレクトリ
