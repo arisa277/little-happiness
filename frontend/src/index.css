@@ -30,7 +30,7 @@ body {
   @apply text-2xl m-2;
 }
 .markdown h3 {
-  @apply text-xl m-2;
+  @apply text-xl m-2 border-b border-gray-300 pb-1;
 }
 /* インラインコード */
 .markdown code {
@@ -58,6 +58,20 @@ body {
 
 .dark .markdown pre code {
   @apply text-gray-800 shadow-none;
+}
+
+/* テーブルスタイル */
+table {
+  @apply w-full border-collapse;
+}
+
+table th,
+table td {
+  @apply px-4 py-2 border border-gray-300 text-left;
+}
+
+table th {
+  @apply bg-gray-100 font-semibold;
 }
 
 /* マークダウン内の画像のスタイル */

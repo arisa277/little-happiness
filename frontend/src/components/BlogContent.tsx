@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 
 interface BlogContentProps {
   date: string;
@@ -54,7 +56,11 @@ const BlogContent: React.FC<BlogContentProps> = ({
           <p className="ml-3 mt-16 text-xs">{date}</p>
           <h1>{title}</h1>
           {/* カスタムレンダラーを使用 */}
-          <ReactMarkdown components={components}>
+          <ReactMarkdown
+            components={components}
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeRaw]}
+          >
             {modifiedContent}
           </ReactMarkdown>
         </div>

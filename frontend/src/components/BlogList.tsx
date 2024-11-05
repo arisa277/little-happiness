@@ -4,7 +4,6 @@ import '../index.css';
 
 const BlogList = () => {
   const { data: blogs, error, isLoading } = useGetBlogsQuery();
-  console.log(blogs);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.toString()}</div>;
